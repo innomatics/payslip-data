@@ -1,6 +1,34 @@
-#Set Up
+#Usage
 
+The program run with no arguments will process the default file `input.csv`.
 
+```
+# process input.csv in same directory
+./payslip-data
+```
+
+Output will be written by default to `output.csv` (over writing if exists).
+
+Input or output files may be specified with the `-i` or `-f` flags respectively.
+
+For a full list of options see:
+```
+./paysli-data --help
+```
+
+#Develpment Set Up
+
+Install the binary release for your OS from https://golang.org/dl/ and follow installation instructions.
+
+##Compilation
+```
+go build
+```
+
+##Run Tests
+```
+go test
+```
 
 #Assumptions
 
@@ -37,7 +65,7 @@ Only payslips for FY2017-18 can be calculated.  i.e. start-date must be between 
 
 CLI application which takes a single argument as the CSV input.  Errors and output are written to standard output / errror.
 
-Implemented on golang.  I wont to learn golang and seems a good fit.
+Implemented on golang.  I want to learn golang and seems a good fit to get the job done fast.
 
 Packages:
 - main
@@ -50,26 +78,4 @@ Packages:
   x2 packages
 
 - integration test
-  CLI
-
-
-
-# Variables
-
-(
-	first_name,
-	last_name,
-	salary_per_year,
-	super_rate,
-	start_date
-) => 
-(
-	first_name,
-	last_name,
-	period_start,
-	period_end,
-	gross_income,
-	income_tax,
-	net_income,
-	super
-)
+  via CLI
