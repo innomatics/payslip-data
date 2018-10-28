@@ -51,15 +51,17 @@ func getIncomeTax(salary int, year int) (incomeTax int) {
 	return 0 // TBI	
 }
 
-func getPayslipData(
+func GetPayslipData(
 	salary 		int,
-	startDay 	int,
-	startDate   time.Time) (
+	startDate   time.Time,
+	super_rate  int,
+	) (
 	grossIncome int,
 	incomeTax   int,
 	netIncome   int,
+	super       int,
 ) {
-	return 0, 0, 0 // TBI
+	return 0, 0, 0, 0 // TBI
 }
 
 func main() {
