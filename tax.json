@@ -1,0 +1,32 @@
+[ 
+    { 
+        "Year" : 2017,
+        "Brackets" : [
+            { 
+                "income" : 0,
+                "base" : 0,
+                "rate" : 0
+            },
+            { 
+                "income" : 18200,
+                "base" : 0,
+                "rate" : 1900
+            },
+            { 
+                "income" : 37000,
+                "base" : 3572,
+                "rate" : 3250
+            },
+            { 
+                "income" : 87000,
+                "base" : 19822,
+                "rate" : 3700
+            },
+            { 
+                "income" : 180000,
+                "base" : 54232,
+                "rate" : 4500
+            }
+        ] 
+    }
+]
