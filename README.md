@@ -2,6 +2,8 @@
 
 The program run with no arguments will process the default file `input.csv`.
 
+The confiuration file `tax.json` constains tax bracket data and must be in the same directory as the executable.
+
 ```
 # process input.csv in same directory
 ./payslip-data
@@ -16,9 +18,9 @@ For a full list of options see:
 ./payslip-data --help
 ```
 
-#Develpment Set Up
+#Building
 
-Install the binary release for your OS from https://golang.org/dl/ and follow installation instructions.
+This program is written in Go. Install the binary release for your OS from https://golang.org/dl/ and follow installation instructions there to install.
 
 ##Compilation
 ```
@@ -38,17 +40,17 @@ First name and last name uniquely identify employee (very unlikely!).
 
 Output 'pay period' calculation specified as PCM, but assumption is the output requires period start date and end date formatted as string.
 
-Employee is assumed to be employed on on payment start date and of continous paid service until the last day of the period i.e. they did not cease employment within the period.
+Employee is assumed to be employed on payment start date and of continuous paid service until the last day of the period i.e. they did not cease employment within the period.
 
-End date is always the last day of the month.  Start date is always 1st of the month i.e. payee are always paid for entire month.  Initially I was not going to make this assumption and calculate part-month payments but limited scope to get this done.
+End date is always the last day of the month.  Start date is always the first of the month i.e. payee are always paid for entire month.  Initially, I was not going to make this assumption and calculate part-month payments but limited scope to get this done :).
 
 A graphical user interface is not required.
 
 Readability and extensibilty are favoured over code performance. Optimisation for very high throughput is not required.
 
-Super rate is provided at no finer than basis point resolution i.e. 0.01%.  A maxium 50% super rate is allowed.
+A maxium 50% super rate is allowed.
 
-Annual salary is a dollar whole figure, greater than zero, and less than $999 billion. 
+Annual salary is a dollar whole figure, greater than zero, and less than $1 billion. 
 
 First name and last name are both provided as UTF8 and are between 1 and 50 characters long.
 
@@ -69,13 +71,13 @@ Implemented on golang.  I want to learn golang and seems a good fit to get the j
 
 Packages:
 - main
-- payslip-calculator
-- tax-bracket-import
-- json
-- csv
+- file 
+- tax-calc
 
 - unit tests 
   x2 packages
 
-- integration test
-  via CLI
+- integration test / volume tests
+  via CLI (TODO!)
+
+- tax band config file JSON

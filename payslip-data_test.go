@@ -116,3 +116,7 @@ func TestParsePercent(t *testing.T) {
         t.Error(s3)
     }
 }
+
+func TestCSVOutput(t *testing.T) {
+    // TBI
+}

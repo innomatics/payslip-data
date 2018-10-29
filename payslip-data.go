@@ -33,7 +33,7 @@ func init() {
 }
 
 const MAX_NAME_LENGTH = 50 
-const MAX_SALARY = 999000000000 
+const MAX_SALARY = 1000000000
 const MAX_SUPER_BASIS_POINTS = 5000 
 const DATE_LAYOUT = "02 January" // This is a weird golang thing
 const DEFAULT_YEAR = 2017 
@@ -58,6 +58,7 @@ type PayslipOutput struct {
     super       int
 }
 
+// These really should have tests
 func validate(in PayslipInput) (bool) {
     errs := []string{}
 
