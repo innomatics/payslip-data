@@ -1,4 +1,4 @@
-package payslips 
+package main 
 
 import (
 	"encoding/json"
@@ -9,6 +9,14 @@ import (
 
 func openFile(fileName string) (file *os.File) {
 	f, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return f
+}
+
+func createFile(fileName string) (file *os.File) {
+	f, err := os.Create(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}

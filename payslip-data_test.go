@@ -1,4 +1,4 @@
-package payslips
+package main
 
 import (
 	"fmt"
@@ -90,5 +90,29 @@ func TestFormatDate(t *testing.T) {
     fmt.Println(a2)
     if e1 != a1 || e2 != a2 {
         t.Error("Date format was wrong")
+    }
+}
+
+func TestParsePercent(t *testing.T) {   
+    s1 := "9%"
+    s2 := "18.57%"
+    s3 := "fresh cod"
+    a1, err := parsePercentAsBasisPoints(s1)
+    if err != nil {
+        t.Error(err)
+    }
+    if a1 != 900 {
+        t.Error(s1)
+    }
+    a2, err2 := parsePercentAsBasisPoints(s2)
+    if err2 != nil {
+        t.Error(err)
+    }
+    if a2 != 1857 {
+        t.Error(s1)
+    }
+    _, err3 := parsePercentAsBasisPoints(s3)
+    if err3 == nil {
+        t.Error(s3)
     }
 }

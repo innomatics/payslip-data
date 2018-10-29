@@ -1,4 +1,4 @@
-package payslips
+package main
 
 import (
     "fmt"

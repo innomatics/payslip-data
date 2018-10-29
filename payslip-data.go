@@ -1,26 +1,33 @@
-package payslips
+package main
 
 import (
-	"log"
+	"io"
+	"bufio"
+    "encoding/csv"
     "flag"
     "fmt"
+    "log"
+    "math"
     "os"
     "regexp"
+    "strconv"
     "time"
 )
 
-var inputFileName, taxConfigFileName string
+var inputFileName, outputFileName, taxConfigFileName string
 
 func init() {
     const (
         usageInput = "Input CSV data file with payee details"
+        usageOutput = "Output file for payslip details"
         usageTax = "Tax bracket JSON data"
     )
-    flag.StringVar(&inputFileName, "i", "", usageInput)
+    flag.StringVar(&inputFileName, "i", "input.csv", usageInput)
+    flag.StringVar(&outputFileName, "o", "output.csv", usageOutput)
     flag.StringVar(&taxConfigFileName, "t", "tax.json", usageTax)
     flag.Parse()
     flag.Usage = func() {
-        fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s -i payee-details.csv\n", os.Args[0])
+        fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s -i input.csv\n", os.Args[0])
         flag.PrintDefaults()
     }
 }
@@ -31,6 +38,8 @@ const MAX_SUPER_BASIS_POINTS = 5000
 const DATE_LAYOUT = "02 January" // This is a weird golang thing
 const DEFAULT_YEAR = 2017 
 
+const CSV_INPUT_COLUMNS = 5
+
 type PayslipInput struct {
     firstName   string 
     lastName    string 
@@ -40,6 +49,8 @@ type PayslipInput struct {
 }
 
 type PayslipOutput struct {
+    name        string
+    startDate   time.Time
     endDate     time.Time
     grossIncome int
     incomeTax   int
@@ -91,10 +102,12 @@ func GetPayslipData(in PayslipInput) (result PayslipOutput) {
     if err != nil {
         log.Fatal(err)
     }
+    result.name        = in.firstName + " " + in.lastName
     result.grossIncome = getMonthlyAmount(in.salary)
     result.incomeTax   = getMonthlyAmount(annualIncomeTax)
     result.netIncome   = result.grossIncome - result.incomeTax
     result.super       = applyBasisPointRate(result.grossIncome, in.superRate)
+    result.startDate   = in.startDate
     result.endDate     = in.startDate.AddDate(0, 1, -1)
 
     return result
@@ -117,17 +130,72 @@ func formatDate(in time.Time) (string) {
     return in.Format(DATE_LAYOUT) + " – " + endOfMonth.Format(DATE_LAYOUT)
 }
 
+func parsePercentAsBasisPoints(in string) (int, error) {
+    re := regexp.MustCompile("\\d+\\.?\\d*")
+    match := re.FindString(in)
+    float, err := strconv.ParseFloat(match, 32)
+    return int(math.Round(float * 100)), err
+}
+
 func main() {
-    if inputFileName=="" {
+    if inputFileName == "" || outputFileName == "" {
         flag.Usage()
         os.Exit(1)	
     }
     loadTaxData(taxConfigFileName)
 
-    openFile(inputFileName)
+    file := openFile(inputFileName)
+    defer file.Close()
+    reader := csv.NewReader(bufio.NewReader(file))
 
-    //openFile(outputFile)
+    writeFile := createFile(outputFileName)
+    defer writeFile.Close()
+    writer := csv.NewWriter(writeFile)
+    defer writer.Flush()
 
-    // For line in CSV file, output to stdout or output file
-
+    for {
+        line, err := reader.Read()
+        if err == io.EOF {
+            break
+        } else if err != nil {
+            log.Fatal(err)
+        }
+        if len(line) != CSV_INPUT_COLUMNS {
+            log.Fatal("Input file format is incorrect")
+        }
+        salary, err := strconv.ParseInt(line[2], 10, 32)
+        if err != nil {
+            log.Fatal(err)
+        }
+        superRate, err := parsePercentAsBasisPoints(line[3])
+        if err != nil {
+            log.Fatal(err)
+        }
+        startDate, err := parseDate(line[4])
+        if err != nil {
+            log.Fatal(err)
+        }
+        input := PayslipInput{
+            firstName: line[0],
+            lastName: line[1],
+            salary: int(salary),
+            superRate: superRate,
+            startDate: startDate,
+        }
+        if validate(input) {
+            output := GetPayslipData(input)
+            csvOutput := []string {
+                output.name,
+                formatDate(output.startDate),
+                fmt.Sprintf("%d", output.grossIncome),
+                fmt.Sprintf("%d", output.incomeTax),
+                fmt.Sprintf("%d", output.netIncome),
+                fmt.Sprintf("%d", output.super),
+            }
+            err := writer.Write(csvOutput)
+            if err != nil {
+                log.Fatal(err)
+            }
+        }
+    }
 }
