@@ -13,7 +13,7 @@ Input or output files may be specified with the `-i` or `-f` flags respectively.
 
 For a full list of options see:
 ```
-./paysli-data --help
+./payslip-data --help
 ```
 
 #Develpment Set Up

@@ -5,6 +5,7 @@ import (
     "flag"
     "fmt"
     "os"
+    "regexp"
     "time"
 )
 
@@ -27,6 +28,8 @@ func init() {
 const MAX_NAME_LENGTH = 50 
 const MAX_SALARY = 999000000000 
 const MAX_SUPER_BASIS_POINTS = 5000 
+const DATE_LAYOUT = "02 January" // This is a weird golang thing
+const DEFAULT_YEAR = 2017 
 
 type PayslipInput struct {
     firstName   string 
@@ -84,17 +87,34 @@ func validate(in PayslipInput) (bool) {
 }
 
 func GetPayslipData(in PayslipInput) (result PayslipOutput) {
-    annualIncomeTax, err := GetIncomeTax(in.salary, in.startDate)
+    annualIncomeTax, err := getIncomeTax(in.salary, in.startDate)
     if err != nil {
         log.Fatal(err)
     }
-    result.grossIncome = GetMonthlyAmount(in.salary)
-    result.incomeTax   = GetMonthlyAmount(annualIncomeTax)
+    result.grossIncome = getMonthlyAmount(in.salary)
+    result.incomeTax   = getMonthlyAmount(annualIncomeTax)
     result.netIncome   = result.grossIncome - result.incomeTax
-    result.super       = ApplyBasisPointRate(result.grossIncome, in.superRate)
+    result.super       = applyBasisPointRate(result.grossIncome, in.superRate)
     result.endDate     = in.startDate.AddDate(0, 1, -1)
 
     return result
+}
+
+// I probably should have chosen my own formats!
+func parseDate(in string) (time.Time, error){
+    re := regexp.MustCompile("^\\d+\\s+[a-zA-Z]+")
+    match := re.FindString(in)
+    t, err := time.Parse(DATE_LAYOUT, match)
+    year := DEFAULT_YEAR
+    if t.Month() < time.July {
+        year++
+    } 
+    return t.AddDate(year, 0, 0), err
+}
+
+func formatDate(in time.Time) (string) {
+    endOfMonth := in.AddDate(0, 1, -1)
+    return in.Format(DATE_LAYOUT) + " – " + endOfMonth.Format(DATE_LAYOUT)
 }
 
 func main() {
@@ -102,7 +122,7 @@ func main() {
         flag.Usage()
         os.Exit(1)	
     }
-    LoadTaxData(taxConfigFileName)
+    loadTaxData(taxConfigFileName)
 
     openFile(inputFileName)
 

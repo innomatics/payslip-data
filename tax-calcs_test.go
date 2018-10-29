@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetIncomeTax(t *testing.T) {
-    LoadTaxData("tax.json")
+    loadTaxData("tax.json")
 
     type TestData struct {
         in int
@@ -73,7 +73,7 @@ func TestGetIncomeTax(t *testing.T) {
     }
 
     for _, d := range data {
-        actual, err := GetIncomeTax(d.in, date)
+        actual, err := getIncomeTax(d.in, date)
         if err != nil {
             t.Error(err)
         }
@@ -81,19 +81,19 @@ func TestGetIncomeTax(t *testing.T) {
         assert(actual, d.expected, "Income Tax")
      }
 
-     _, err := GetIncomeTax(50000, date2016)
+     _, err := getIncomeTax(50000, date2016)
      if err == nil {
          t.Error("2016 date should be an error")
      } 
-     _, err = GetIncomeTax(50000, date2017a)
+     _, err = getIncomeTax(50000, date2017a)
      if err != nil {
          t.Error("2017 date should not be an error")
      } 
-     _, err = GetIncomeTax(50000, date2017b)
+     _, err = getIncomeTax(50000, date2017b)
      if err != nil {
          t.Error("2017 date should not be an error")
      } 
-     _, err = GetIncomeTax(50000, date2018)
+     _, err = getIncomeTax(50000, date2018)
      if err == nil {
          t.Error("2018 date should be an error")
      } 
