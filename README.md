@@ -9,9 +9,9 @@ The confiuration file `tax.json` constains tax bracket data and must be in the s
 ./payslip-data
 ```
 
-Output will be written by default to `output.csv` (over writing if exists).
+Output will be written by default to `output.csv` (over-writing if exists).
 
-Input or output files may be specified with the `-i` or `-f` flags respectively.
+Input or output files may be specified with the `-i` or `-o` flags respectively.
 
 For a full list of options see:
 ```
