@@ -5,7 +5,7 @@ import (
     "time"
 )
 
-type TestData struct {
+type PayslipTestData struct {
     in PayslipInput
     expected PayslipOutput
 }
@@ -13,8 +13,8 @@ type TestData struct {
 func TestGetPaySlipData(t *testing.T) {
     LoadTaxData("tax.json")
 
-    data := []TestData {
-        TestData {
+    data := []PayslipTestData {
+        PayslipTestData {
             in: PayslipInput {
                 firstName: "David",
                 lastName: "Rudd",
@@ -29,7 +29,7 @@ func TestGetPaySlipData(t *testing.T) {
                 super: 450,
             },
         },
-        TestData {
+        PayslipTestData {
             in: PayslipInput {
                 firstName: "Ryan",
                 lastName: "Chen",

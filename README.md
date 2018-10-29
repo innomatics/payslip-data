@@ -40,13 +40,13 @@ Output 'pay period' calculation specified as PCM, but assumption is the output r
 
 Employee is assumed to be employed on on payment start date and of continous paid service until the last day of the period i.e. they did not cease employment within the period.
 
-End date is always the last day of the month.  If the start date is not the 1st of the month, the pay period is only from that date, until the end of the month i.e. the pay period my be shorter that one month.
+End date is always the last day of the month.  Start date is always 1st of the month i.e. payee are always paid for entire month.  Initially I was not going to make this assumption and calculate part-month payments but limited scope to get this done.
 
 A graphical user interface is not required.
 
 Readability and extensibilty are favoured over code performance. Optimisation for very high throughput is not required.
 
-Super rate is provided at no finer than basis point resolution i.e. 0.01%. Otherwise and error will occur.
+Super rate is provided at no finer than basis point resolution i.e. 0.01%.  A maxium 50% super rate is allowed.
 
 Annual salary is a dollar whole figure, greater than zero, and less than $999 billion. 
 
@@ -58,7 +58,7 @@ CSV input does not contain headers. Maximum lines in file is 10 million.
 
 The application runs on Linux Unbuntu 16.04.
 
-Only payslips for FY2017-18 can be calculated.  i.e. start-date must be between 01-Jul-2017 and 30-Jun-2018.
+Only payslips for FY2017-18 can be calculated.  i.e. start-date must be between 01-Jul-2017 and 01-Jun-2018.
 
 
 #Solution Architecure and Design
