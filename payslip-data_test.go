@@ -1,46 +1,44 @@
-package main
+package payslips
 
 import (
 	"testing"
 	"time"
 )
 
-func assertInts(t *testing.T, actual int, expected int, name string) {
-	if actual != expected {
-		t.Errorf("%s was incorrect, got: %d, want: %d.", name, actual, expected)
-	}
-}
 func TestGetPaySlipData(t *testing.T) {
+    LoadTaxData("tax.json")
 
-	// David Rudd
-	startDate := time.Date(2017, time.March, 1, 0, 0, 0, 0, time.UTC)
-	salary := 60050
-	superRate := 900
-	grossIncomeExp := 5004
-	incomeTaxExp := 922
-	netIncomeExp := 4082
-	superExp := 450
+    testName := "David Rudd"
+    startDate := time.Date(2018, time.March, 1, 0, 0, 0, 0, time.UTC)
+    salary := 60050
+    superRate := 900
+    grossIncomeExp := 5004
+    incomeTaxExp := 922
+    netIncomeExp := 4082
+    superExp := 450
 
-	grossIncome, incomeTax, netIncome, super := GetPayslipData(salary, startDate, superRate)
+    grossIncome, incomeTax, netIncome, super := GetPayslipData(salary, startDate, superRate)
 
-	assertInts(t, grossIncome, grossIncomeExp, "Gross Income")
-	assertInts(t, incomeTax, incomeTaxExp, "Income Tax")
-	assertInts(t, netIncome, netIncomeExp, "Net Income")
-	assertInts(t, super, superExp, "Super")
+    assert := getIntAsserter(t, testName)
 
-	// Ryan Chen
-	startDate = time.Date(2017, time.March, 1, 0, 0, 0, 0, time.UTC)
-	salary = 120000
-	superRate = 1000
-	grossIncomeExp = 5004
-	incomeTaxExp = 922
-	netIncomeExp = 4082
-	superExp = 450
+    assert(grossIncome, grossIncomeExp, "Gross Income")
+    assert(incomeTax, incomeTaxExp, "Income Tax")
+    assert(netIncome, netIncomeExp, "Net Income")
+    assert(super, superExp, "Super")
 
-	grossIncome, incomeTax, netIncome, super = GetPayslipData(salary, startDate, superRate)
+    testName = "Ryan Chen"
+    startDate = time.Date(2018, time.March, 1, 0, 0, 0, 0, time.UTC)
+    salary = 120000
+    superRate = 1000
+    grossIncomeExp = 10000 
+    incomeTaxExp = 2669 
+    netIncomeExp = 7331 
+    superExp = 1000 
 
-	assertInts(t, grossIncome, grossIncomeExp, "Gross Income")
-	assertInts(t, incomeTax, incomeTaxExp, "Income Tax")
-	assertInts(t, netIncome, netIncomeExp, "Net Income")
-	assertInts(t, super, superExp, "Super")
+    grossIncome, incomeTax, netIncome, super = GetPayslipData(salary, startDate, superRate)
+
+    assert(grossIncome, grossIncomeExp, "Gross Income")
+    assert(incomeTax, incomeTaxExp, "Income Tax")
+    assert(netIncome, netIncomeExp, "Net Income")
+    assert(super, superExp, "Super")
 }

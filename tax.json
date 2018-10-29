@@ -28,5 +28,35 @@
                 "rate" : 4500
             }
         ] 
+    },
+    { 
+        "Year" : 2018,
+        "Brackets" : [
+            { 
+                "income" : 0,
+                "base" : 0,
+                "rate" : 0
+            },
+            { 
+                "income" : 18200,
+                "base" : 0,
+                "rate" : 1900
+            },
+            { 
+                "income" : 37000,
+                "base" : 3572,
+                "rate" : 3250
+            },
+            { 
+                "income" : 90000,
+                "base" : 20797,
+                "rate" : 3700
+            },
+            { 
+                "income" : 180000,
+                "base" : 45097,
+                "rate" : 4500
+            }
+        ] 
     }
 ]
