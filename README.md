@@ -1,4 +1,6 @@
-#Usage
+Response to coding challenge done over a few hours and to teach myself some Go.
+
+# Usage
 
 The program run with no arguments will process the default file `input.csv`.
 
@@ -18,21 +20,21 @@ For a full list of options see:
 ./payslip-data --help
 ```
 
-#Building
+# Building
 
 This program is written in Go. Install the binary release for your OS from https://golang.org/dl/ and follow installation instructions there to install.
 
-##Compilation
+## Compilation
 ```
 go build
 ```
 
-##Run Tests
+## Run Tests
 ```
 go test
 ```
 
-#Assumptions
+# Assumptions
 
 The coding challenge PDF encapsulates all requirements of the real problem (unlikely!).
 
@@ -63,7 +65,7 @@ The application runs on Linux Unbuntu 16.04.
 Only payslips for FY2017-18 can be calculated.  i.e. start-date must be between 01-Jul-2017 and 01-Jun-2018.
 
 
-#Solution Architecure and Design
+# Solution Architecure and Design
 
 CLI application which takes a single argument as the CSV input.  Errors and output are written to standard output / errror.
 
