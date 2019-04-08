@@ -71,7 +71,7 @@ CLI application which takes a single argument as the CSV input.  Errors and outp
 
 Implemented on golang.  I want to learn golang and seems a good fit to get the job done fast.
 
-Packages:
+Packages: (not real go packages - TODO - make them so!)
 - main
 - file 
 - tax-calc
