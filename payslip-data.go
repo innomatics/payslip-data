@@ -44,7 +44,7 @@ type PayslipInput struct {
     firstName   string 
     lastName    string 
     startDate   time.Time
-    salary 		int
+    salary      int
     superRate   int
 }
 
