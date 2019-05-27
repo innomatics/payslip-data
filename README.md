@@ -65,7 +65,7 @@ The application runs on Linux Unbuntu 16.04.
 Only payslips for FY2017-18 can be calculated.  i.e. start-date must be between 01-Jul-2017 and 01-Jun-2018.
 
 
-# Solution Architecure and Design
+# Solution Architecture and Design
 
 CLI application which takes a single argument as the CSV input.  Errors and output are written to standard output / errror.
 
